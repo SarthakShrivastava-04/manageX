@@ -1,115 +1,73 @@
-"use client"
+"use client";
+import { Users } from "lucide-react";
+import Link from "next/link";
 
-import Link from "next/link"
-import { Users, Github, Twitter, Linkedin } from "lucide-react"
+const links = [
+  {
+    title: "About",
+    href: "#",
+  },
+  {
+    title: "Help",
+    href: "#",
+  },
+  {
+    title: "Contact",
+    href: "#",
+  },
+  {
+    title: "API",
+    href: "https://jsonplaceholder.typicode.com/users"
+  },
+];
 
-const footerLinks = {
-  product: [
-    { name: "Features", href: "#features" },
-    { name: "Dashboard", href: "/dashboard" },
-    { name: "Documentation", href: "#docs" },
-    { name: "API", href: "#api" },
-  ],
-  company: [
-    { name: "About", href: "#about" },
-    { name: "Blog", href: "#blog" },
-    { name: "Careers", href: "#careers" },
-    { name: "Contact", href: "#contact" },
-  ],
-  support: [
-    { name: "Help Center", href: "#help" },
-    { name: "Community", href: "#community" },
-    { name: "Status", href: "#status" },
-    { name: "Updates", href: "#updates" },
-  ],
-}
-
-const socialLinks = [
-  { name: "GitHub", href: "#", icon: Github },
-  { name: "Twitter", href: "#", icon: Twitter },
-  { name: "LinkedIn", href: "#", icon: Linkedin },
-]
-
-export function Footer() {
+export default function FooterSection() {
   return (
-    <footer className="border-t bg-background">
-      <div className="container py-12 md:py-16">
-        <div className="grid gap-8 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <Users className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold">UserDash</span>
-            </div>
-            <p className="text-muted-foreground max-w-md">
-              A modern, powerful user management dashboard built with Next.js, TypeScript, and the latest web
-              technologies. Manage your users with confidence.
-            </p>
-            <div className="flex space-x-4 mt-6">
-              {socialLinks.map((item) => (
+    <footer className="border-b bg-zinc-50 dark:bg-zinc-950 pt-12 dark:bg-transparent">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex gap-12 justify-between">
+          <div className="md:col-span-2">
+            <Link
+              href="/"
+              aria-label="go home"
+              className="flex items-center space-x-1"
+            >
+              <Users className="h-6 w-6 text-primary" />
+              <span className="text-xl">ManageX</span>
+            </Link>
+          </div>
+
+          <div className="flex gap-4 md:gap-12 sm:gap-8">
+            {links.map((link, index) => (
+              <div key={index} className="space-y-8 text-sm">
                 <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  href={link.href}
+                  className="text-zinc-700 dark:text-muted-foreground hover:text-primary block duration-150"
                 >
-                  <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-5 w-5" />
+                  <span>{link.title}</span>
                 </Link>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-4">Product</h3>
-            <ul className="space-y-3">
-              {footerLinks.product.map((item) => (
-                <li key={item.name}>
-                  <Link href={item.href} className="text-muted-foreground hover:text-primary transition-colors">
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-4">Company</h3>
-            <ul className="space-y-3">
-              {footerLinks.company.map((item) => (
-                <li key={item.name}>
-                  <Link href={item.href} className="text-muted-foreground hover:text-primary transition-colors">
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-4">Support</h3>
-            <ul className="space-y-3">
-              {footerLinks.support.map((item) => (
-                <li key={item.name}>
-                  <Link href={item.href} className="text-muted-foreground hover:text-primary transition-colors">
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+              </div>
+            ))}
           </div>
         </div>
-
-        <div className="border-t mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-muted-foreground text-sm">© 2024 UserDash. All rights reserved.</p>
-          <div className="flex space-x-6 mt-4 sm:mt-0">
-            <Link href="#privacy" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#terms" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-              Terms of Service
-            </Link>
+        <div className="mt-12 flex flex-wrap items-end justify-between gap-6 border-t py-6">
+          <span className="text-muted-foreground order-last block text-center text-sm md:order-first">
+            © {new Date().getFullYear()} ManageX, All rights reserved
+          </span>
+          <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last">
+            <span className="text-muted-foreground order-last block text-center text-sm md:order-first">
+              Made by Sarthak
+            </span>
+            <Link
+              href="https://github.com/SarthakShrivastava-04/Managex"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="text-muted-foreground hover:text-primary block"
+            ></Link>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }
