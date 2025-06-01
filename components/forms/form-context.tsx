@@ -33,7 +33,6 @@ export function FormProvider({ children }: { children: React.ReactNode }) {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<FormData>(initialFormData)
 
-  // Load data from localStorage on mount
   useEffect(() => {
     const savedData = localStorage.getItem("userFormData")
     const savedStep = localStorage.getItem("userFormStep")
@@ -46,7 +45,6 @@ export function FormProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  // Save to localStorage whenever data changes
   useEffect(() => {
     localStorage.setItem("userFormData", JSON.stringify(formData))
   }, [formData])

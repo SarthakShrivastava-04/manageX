@@ -1,61 +1,60 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { useFormContext } from "./form-context"
-import { BasicInfoStep } from "./steps/basic-info-step"
-import { AddressStep } from "./steps/address-step"
-import { ReviewStep } from "./steps/review-step"
-import { ArrowLeft, ArrowRight, CheckCircle } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
-import Link from "next/link"
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { useFormContext } from "./form-context";
+import { BasicInfoStep } from "./steps/basic-info-step";
+import { AddressStep } from "./steps/address-step";
+import { ReviewStep } from "./steps/review-step";
+import { ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
+import { toast } from "sonner";
+import Link from "next/link";
 
 const steps = [
   { id: 1, title: "Basic Information", component: BasicInfoStep },
   { id: 2, title: "Address Details", component: AddressStep },
   { id: 3, title: "Review & Confirm", component: ReviewStep },
-]
+];
 
 export function AddUserForm() {
-  const { currentStep, setCurrentStep, formData, resetForm } = useFormContext()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const { toast } = useToast()
+  const { currentStep, setCurrentStep, formData, resetForm } = useFormContext();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isStepValid, setIsStepValid] = useState(true); 
 
-  const progress = (currentStep / steps.length) * 100
+  const progress = (currentStep / steps.length) * 100;
 
   const handleNext = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1)
+    if (isStepValid && currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
+    } else if (!isStepValid) {
+      toast("Please fix the errors before proceeding.");
     }
-  }
+  };
 
   const handlePrevious = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
-  }
+  };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true)
-
+    if (!isStepValid) {
+      toast("Please ensure all information is correct before submitting.");
+      return;
+    }
+    setIsSubmitting(true);
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log("User data submitted:", formData);
+    toast("User has been added successfully.");
+    resetForm();
+    setIsSubmitting(false);
+  };
 
-    console.log("User data submitted:", formData)
-
-    toast({
-      title: "Success!",
-      description: "User has been added successfully.",
-    })
-
-    resetForm()
-    setIsSubmitting(false)
-  }
-
-  const CurrentStepComponent = steps[currentStep - 1].component
+  const CurrentStepComponent = steps[currentStep - 1].component;
 
   return (
     <Card className="w-full border-2 rounded-2xl shadow-lg">
@@ -89,16 +88,22 @@ export function AddUserForm() {
                   currentStep > step.id
                     ? "bg-black text-white dark:bg-white dark:text-black"
                     : currentStep === step.id
-                      ? "bg-gray-200 text-black dark:bg-gray-700 dark:text-white border-2 border-black dark:border-white"
-                      : "bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-500"
+                    ? "bg-gray-200 text-black dark:bg-gray-700 dark:text-white border-2 border-black dark:border-white"
+                    : "bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-500"
                 }`}
               >
-                {currentStep > step.id ? <CheckCircle className="h-4 w-4" /> : step.id}
+                {currentStep > step.id ? (
+                  <CheckCircle className="h-4 w-4" />
+                ) : (
+                  step.id
+                )}
               </div>
               {index < steps.length - 1 && (
                 <div
                   className={`h-0.5 w-16 mx-2 transition-all ${
-                    currentStep > step.id ? "bg-black dark:bg-white" : "bg-gray-200 dark:bg-gray-700"
+                    currentStep > step.id
+                      ? "bg-black dark:bg-white"
+                      : "bg-gray-200 dark:bg-gray-700"
                   }`}
                 />
               )}
@@ -116,7 +121,7 @@ export function AddUserForm() {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <CurrentStepComponent />
+            <CurrentStepComponent onValid={setIsStepValid} />
           </motion.div>
         </AnimatePresence>
 
@@ -133,17 +138,27 @@ export function AddUserForm() {
           </Button>
 
           {currentStep < steps.length ? (
-            <Button type="button" onClick={handleNext} className="rounded-xl px-6">
+            <Button
+              type="button"
+              onClick={handleNext}
+              disabled={!isStepValid}
+              className="rounded-xl px-6"
+            >
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           ) : (
-            <Button type="button" onClick={handleSubmit} disabled={isSubmitting} className="rounded-xl px-8">
+            <Button
+              type="button"
+              onClick={handleSubmit}
+              disabled={isSubmitting || !isStepValid}
+              className="rounded-xl px-8"
+            >
               {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           )}
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useFormContext } from "../form-context"
-import { User, MapPin } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useFormContext } from "../form-context";
+import { User, MapPin } from "lucide-react";
+import { useEffect } from "react";
 
-export function ReviewStep() {
-  const { formData } = useFormContext()
+export function ReviewStep({ onValid }: { onValid: (isValid: boolean) => void }) {
+  const { formData } = useFormContext();
+
+  // Since ReviewStep is read-only, it’s always valid
+  useEffect(() => {
+    onValid(true);
+  }, [onValid]);
 
   return (
     <div className="space-y-6">
@@ -24,11 +30,11 @@ export function ReviewStep() {
         <CardContent className="space-y-3">
           <div className="flex justify-between">
             <span className="font-medium">Name:</span>
-            <span>{formData.name}</span>
+            <span>{formData.name || "Not provided"}</span>
           </div>
           <div className="flex justify-between">
             <span className="font-medium">Email:</span>
-            <span>{formData.email}</span>
+            <span>{formData.email || "Not provided"}</span>
           </div>
         </CardContent>
       </Card>
@@ -43,15 +49,15 @@ export function ReviewStep() {
         <CardContent className="space-y-3">
           <div className="flex justify-between">
             <span className="font-medium">Street:</span>
-            <span>{formData.street}</span>
+            <span>{formData.street || "Not provided"}</span>
           </div>
           <div className="flex justify-between">
             <span className="font-medium">City:</span>
-            <span>{formData.city}</span>
+            <span>{formData.city || "Not provided"}</span>
           </div>
           <div className="flex justify-between">
             <span className="font-medium">Zip Code:</span>
-            <span>{formData.zipcode}</span>
+            <span>{formData.zipcode || "Not provided"}</span>
           </div>
         </CardContent>
       </Card>
@@ -63,5 +69,5 @@ export function ReviewStep() {
         </p>
       </div>
     </div>
-  )
+  );
 }
