@@ -2,7 +2,7 @@
 
 A modern, responsive user management system featuring a **multi-step user registration form** , built with **Next.js**, **React Hook Form**, **TypeScript**, **Tailwind CSS**, and **Framer Motion**. 
 
-🔗 **Live Demo**: [https://ManageX.vercel.app](https://Managex.vercel.app)
+🔗 **Live Demo**: [live url](https://manage-x.vercel.app/)
 
 It offers real-time form validation with **Zod**, centralized state management, and smooth animations for an enhanced user experience.
 
