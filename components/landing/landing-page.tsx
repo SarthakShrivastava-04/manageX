@@ -23,6 +23,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Header } from "./header";
 import FooterSection from "./footer";
+import Image from "next/image";
 
 const features = [
   {
@@ -233,17 +234,15 @@ export function LandingPage() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="aspect-video rounded-3xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 p-8 border-2">
+              <div className="aspect-video rounded-3xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 p-1 border-2">
                 <div className="h-full w-full rounded-2xl glass-effect flex items-center justify-center">
-                  <div className="text-center">
-                    <Users className="h-20 w-20 text-black dark:text-white mx-auto mb-6" />
-                    <h3 className="text-2xl font-normal mb-2">
-                      Dashboard Preview
-                    </h3>
-                    <p className="text-zinc-700 dark:text-zinc-300 text-lg">
-                      Clean, modern interface designed for productivity
-                    </p>
-                  </div>
+                  <Image 
+                    unoptimized
+        width={600}
+        height={900}
+                    src="/dashboard.jpg"
+                    alt="dashboard"
+                  />
                 </div>
               </div>
             </motion.div>

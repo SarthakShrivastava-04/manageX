@@ -1,6 +1,7 @@
 "use client";
 import { Users } from "lucide-react";
 import Link from "next/link";
+import {FaGithub } from "react-icons/fa";
 
 const links = [
   {
@@ -54,17 +55,19 @@ export default function FooterSection() {
           <span className="text-muted-foreground order-last block text-center text-sm md:order-first">
             © {new Date().getFullYear()} ManageX, All rights reserved
           </span>
-          <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last">
+          <div className="order-first flex flex-wrap justify-center gap-5 text-sm md:order-last">
             <span className="text-muted-foreground order-last block text-center text-sm md:order-first">
               Made by Sarthak
             </span>
             <Link
-              href="https://github.com/SarthakShrivastava-04/Managex"
+              href="https://github.com/SarthakShrivastava-04/manageX"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
               className="text-muted-foreground hover:text-primary block"
-            ></Link>
+            >
+              <FaGithub h-6 w-6/>
+            </Link>
           </div>
         </div>
       </div>
